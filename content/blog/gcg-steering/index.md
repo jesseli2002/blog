@@ -8,7 +8,7 @@ tags:
   - mech-interp
 ---
 
-I stumbled upon someone's competition ([Activation Steering](https://sohampadianeu-steering-arena.hf.space/)) to find a prompt for a LLM that maximizes how close the model's activation are to a given probe direction. When I found it, all of the submissions were probably human-written, and in actual English. I looked at this, and figured "Hey - this would be a good first project to practice the empirical AI safety things I've been learning!"
+I stumbled upon someone's competition ([Steering Arena](https://sohampadianeu-steering-arena.hf.space/)) to find a prompt for a LLM that maximizes how close the model's activation are to a given probe direction. When I found it, all of the submissions were probably human-written, and in actual English. I looked at this, and figured "Hey - this would be a good first project to practice the empirical AI safety things I've been learning!"
 
 One way to tackle this is with Greedy Coordinate Gradients, which I found about in [Accelerating Greedy Coordinate Gradient and General Prompt Optimization via Probe Sampling](https://arxiv.org/abs/2307.15043). That paper optimizes a prompt in an attempt to find a universal jailbreak for LLMs, with a substantial amount of effort and insight being what the objective function even should be. Luckily for me, this project doesn't face that issue; my objective is simply the cosine similarity between the activations at a particular layer and a specified probe direction.
 
