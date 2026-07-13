@@ -8,12 +8,12 @@ main:
   - name: Topics
     url: tags/
     weight: 20
-  - name: Uses
-    url: uses/
-    weight: 30
-  - name: Uses Again
-    url: uses/
-    weight: 40
-  - name: Broken
-    url: broken/
-    weight: 50
+  # - name: Uses
+  #   url: uses/
+  #   weight: 30
+  # - name: Uses Again
+  #   url: uses/
+  #   weight: 40
+  # - name: Broken
+  #   url: broken/
+  #   weight: 50
