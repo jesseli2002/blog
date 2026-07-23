@@ -1,0 +1,6 @@
+/* Widen the article prose column so embedded content (e.g. interactive
+   Plotly charts) has more horizontal room than Tailwind typography's
+   default ~65ch reading-width cap. */
+article .prose {
+  max-width: 100ch;
+}
