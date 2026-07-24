@@ -4,3 +4,10 @@
 article .prose {
   max-width: 100ch;
 }
+
+/* Tailwind typography's default ~2em image margins read as a big gap when
+   a diagram sits inline between paragraphs; tighten it. */
+article .prose img {
+  margin-top: 0.0em;
+  margin-bottom: 0.0em;
+}
