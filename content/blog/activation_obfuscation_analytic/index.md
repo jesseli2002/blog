@@ -3,7 +3,7 @@ title: 'Analytic nonlinear feature obfuscation with two MLP blocks'
 summary:
 date: '2026-07-24'
 image:
-  filename: model_architecture.svg
+  filename: model_architecture.png
   preview_only: true
 authors:
   - me
@@ -15,9 +15,7 @@ tags:
 *This work was done as part of my work for the [BlueDot Impact Technical AI Safety Project](https://bluedot.org/courses/technical-ai-safety-project). Later parts will cover experimental results.*
 
 Consider a residual stream MLP architecture, like the one shown below:
-
 ![](model_architecture.svg)
-
 The model is trying to learn $y = \text{sat}(x, -c, c)$ (the saturation function, equivalently $y = \max(-c, \min(c, x))$).
  $x$ is a vector of dense features sampled uniformly from $[-3, 3]$, and $c$ is a scalar sampled uniformly in $[1, 2]$. This is a fairly easy function to learn - it just takes $2 \cdot \text{len}(x)$ neurons to learn exactly if you use ReLUs. But the harder question is, can a model do this without storing $c$ in the residual stream, in a way that can be linearly probed?
 
