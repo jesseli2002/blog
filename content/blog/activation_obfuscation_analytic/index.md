@@ -2,6 +2,9 @@
 title: 'Analytic nonlinear feature obfuscation with two MLP blocks'
 summary:
 date: '2026-07-24'
+image:
+  filename: model_architecture.svg
+  preview_only: true
 authors:
   - me
 tags:
