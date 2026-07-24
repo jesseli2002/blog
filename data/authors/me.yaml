@@ -21,6 +21,10 @@ links:
   #   url: https://x.com/GoOwnable
   # - icon: brands/instagram
   #   url: https://www.instagram.com/
+  - icon: brands/github
+    url: https://github.com/jesseli2002
+  - icon: brands/gitlab
+    url: https://gitlab.com/jesse.li2002
   - icon: brands/linkedin
     url: https://www.linkedin.com/in/jesseli5/
   # - icon: academicons/cv
@@ -29,7 +33,3 @@ links:
   - icon: rss
     url: ./blog/index.xml
     label: Subscribe to my blog via RSS feed
-  - icon: brands/gitlab
-    url: https://gitlab.com/jesse.li2002
-  - icon: brands/gitlab
-    url: https://github.com/jesseli2002
