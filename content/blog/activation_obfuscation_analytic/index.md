@@ -15,33 +15,31 @@ Consider a residual stream MLP architecture, like the one shown below:
 
 ![](model_architecture.svg)
 
-The model is trying to learn `y = sat(x, -c, c)` (the saturation function, equivalently `y = max(-c, min(c, x))`).
- `x` is a vector of dense features sampled uniformly from `[-3, 3]`, and `c` is a scalar sampled uniformly in `[1, 2]`. This is a fairly easy function to learn - it just takes `2*len(x)` neurons to learn exactly if you use ReLUs. But the harder question is, can a model do this without storing `c` in the residual stream, in a way that can be linearly probed?
+The model is trying to learn $y = \text{sat}(x, -c, c)$ (the saturation function, equivalently $y = \max(-c, \min(c, x))$).
+ $x$ is a vector of dense features sampled uniformly from $[-3, 3]$, and $c$ is a scalar sampled uniformly in $[1, 2]$. This is a fairly easy function to learn - it just takes $2 \cdot \text{len}(x)$ neurons to learn exactly if you use ReLUs. But the harder question is, can a model do this without storing $c$ in the residual stream, in a way that can be linearly probed?
 
 This is an important question - although this is a toy model, its structure is reminiscent of how transformer models work, just on a much smaller scale. Normally, LLMs learn to store "features" as directions in activation space, such that you can train a linear probe to detect them. This is really useful! We can use this as a cheap monitor to detect things like whether the model is lying or whether the user's prompt is dangerous. You might think that if we can detect deception, we can just add the probe's score as a loss term in training, to align the model. However, training on mech-interp monitors like probes is considered [a forbidden technique](https://www.lesswrong.com/posts/mpmsK8KKysgSKDm2T/the-most-forbidden-technique), because the model could very well just learn to obfuscate its representations instead of learning what you wanted it to learn - and now you have a misaligned model *and* one less way to monitor it.
 
-In this post I'll show that the model can at least theoretically represent `c` (itself meant to represent a feature we care about) in a non-linear fashion, in a way invisible to difference-of-means probes on every other layer, by means of an explicit construction (credit where credit's due: Claude came up with this encoding). Before we get started, though, I want to highlight some features of this architecture:
-- The learned function is not linearly separable in `c` - so once the model has finished computing `y_i` for one `x_i` feature, it can just leave `y_i` in the residual stream. This is vaguely analogous to how probe accuracy seems to get a bit worse as you check the last layers of a transformer model, as the model starts shifting its representation from more abstract concepts to the exact text it wants to output.
-- Because it takes at least `2 * len(x)` neurons to implement `y`, as long as the width of the MLP blocks is less than `2 * len(x)`, we can be sure the model has represented `c` somehow in the first layer (or the model hasn't actually learned the task fully). More generally, the model needs to encounter at least `2 * len(x)` neurons before it can "forget" about `c`. In practical experiments, we can use this property to guarentee that the model is representing `c` at a particular early layer.
+In this post I'll show that the model can at least theoretically represent $c$ (itself meant to represent a feature we care about) in a non-linear fashion, in a way invisible to difference-of-means probes on every other layer, by means of an explicit construction (credit where credit's due: Claude came up with this encoding). Before we get started, though, I want to highlight some features of this architecture:
+- The learned function is not linearly separable in $c$ - so once the model has finished computing $y_i$ for one $x_i$ feature, it can just leave $y_i$ in the residual stream. This is vaguely analogous to how probe accuracy seems to get a bit worse as you check the last layers of a transformer model, as the model starts shifting its representation from more abstract concepts to the exact text it wants to output.
+- Because it takes at least $2 \cdot \text{len}(x)$ neurons to implement $y$, as long as the width of the MLP blocks is less than $2 \cdot \text{len}(x)$, we can be sure the model has represented $c$ somehow in the first layer (or the model hasn't actually learned the task fully). More generally, the model needs to encounter at least $2 \cdot \text{len}(x)$ neurons before it can "forget" about $c$. In practical experiments, we can use this property to guarentee that the model is representing $c$ at a particular early layer.
 - For simplicity, we'll also assume that the residual stream is arbitrarily wide, and that the embedding and unembedding matrices are rectangular identity matrices (i.e. ones on the main diagonal, zero elsewhere).
 
 For notation: I'll use $W_i$ and $b_i$ to denote the MLP input weight and bias, and $W_o$ and $b_o$ for the output weight and bias.
 
-## Encoding: `v1(x1, c)` and `v2(x1, c)`
-We'll encode `c` in the first MLP block, using two channels and borrowing an unrelated feature $x_1$:
+## Encoding: $v_1(x_1, c)$ and $v_2(x_1, c)$
+We'll encode $c$ in the first MLP block, using two channels and borrowing an unrelated feature $x_1$:
 
-```
-v1(x1, c) = -2*ReLU(-x1 - c)   + 2*ReLU(x1 + c   - 3) - c + 1.5
-v2(x1, c) = -4*ReLU(-x1 - c/2) + 4*ReLU(x1 + c/2 - 3) - c + 3.0
-```
+$$v_1(x_1, c) = -2\,\text{ReLU}(-x_1 - c)   + 2\,\text{ReLU}(x_1 + c   - 3) - c + 1.5$$
+$$v_2(x_1, c) = -4\,\text{ReLU}(-x_1 - c/2) + 4\,\text{ReLU}(x_1 + c/2 - 3) - c + 3.0$$
 These have the property that $\int_{-3}^3 v_1 dx_1 = \int_{-3}^3 v_2 dx_1 = 0$. In other words, their mean value is always 0, regardless of $c$. This makes them invisible to difference-of-means probes. The next plot visualizes these functions. Note in particular the locations of the kinks:
 
-- `v1`: `x1 = -c` and `x1 = 3-c`
-- `v2`: `x1 = -c/2` and `x1 = 3-c/2`
+- $v_1$: $x_1 = -c$ and $x_1 = 3-c$
+- $v_2$: $x_1 = -c/2$ and $x_1 = 3-c/2$
 
-Over the valid range of $1 \leq c \leq 2$, these four kink positions are *always* in the same left-to-right order: `-c < -c/2 < 3-c < 3-c/2`. This reliably carves `x1` into 5 bands.
+Over the valid range of $1 \leq c \leq 2$, these four kink positions are *always* in the same left-to-right order: $-c < -c/2 < 3-c < 3-c/2$. This reliably carves $x_1$ into 5 bands.
 
-As a bit of bookkeeping - we'll also erase `c` from the residual stream here, using an always-on neuron (e.g. add `-ReLU(c + 100) - 100)` to the channel contianing `c`).
+As a bit of bookkeeping - we'll also erase $c$ from the residual stream here, using an always-on neuron (e.g. add $-\text{ReLU}(c + 100) - 100$ to the channel contianing $c$).
 
 
 <div style="height:450px; width:100%;">                        <script>window.PlotlyConfig = {MathJaxConfig: 'local'};</script>
@@ -55,10 +53,10 @@ As a bit of bookkeeping - we'll also erase `c` from the residual stream here, us
 
 ## Decoding
 
-If you already knew which of the 5 bands `x1` was in, reading `c` back out
-would be trivial, since each each segment of `v1` and `v2` is linear and can be inverted to recover `c`. In fact, you'd only need one of the `v` channels. For example, if you knew `x1 < -c`, then `v1` simplfies to `1.5-c` and you could recover `c = 1.5-v1`.
+If you already knew which of the 5 bands $x_1$ was in, reading $c$ back out
+would be trivial, since each each segment of $v_1$ and $v_2$ is linear and can be inverted to recover $c$. In fact, you'd only need one of the $v$ channels. For example, if you knew $x_1 < -c$, then $v_1$ simplfies to $1.5-c$ and you could recover $c = 1.5-v_1$.
 
-Unfortunately, we can't predict ahead of time which band `x1` is going to be in, because we don't even know where the bands are (remember, we've erased `c`, which defines the kink locations).
+Unfortunately, we can't predict ahead of time which band $x_1$ is going to be in, because we don't even know where the bands are (remember, we've erased $c$, which defines the kink locations).
 Fortunately (or unfortunately for AI safety people?), there's a workaround: it's possible to create affine functions $P(x_1, v_1, v_2)$ that cross the $P=0$ line only once, and always at an existing kink location ($\{-c, -c/2, 3-c, 3-c/2\}$).
 
 We'll get to how you can generate $P$ in a moment, but first - why is this useful? Well, in our decoding MLP block we can let $P$ be the ReLU input, and $R=\text{ReLU}(P)$ be the ReLU output. Notably, $R$ does not introduce any new kink locations.
@@ -219,5 +217,5 @@ The interactive tool below lets you explore the space of $P_i = a_0 + a_1 x_1 + 
 
 ## Summary
 - **Block 0**: Encode $c$ nonlinearly into $v_1$ and $v_2$, and erase $c$ from the residual stream
-- **Block `2k`** (an unprobed layer): compute the 3 `R_i = relu(P_i(x1, v1, v2))`, and sum them together in the appropriate ratios to fresh direction in the residual stream.
-- **Block `2k+1`** (a probed layer): Compute and use `c = affine(x1, v1, v2, R_1..3)` using the input matrix/bias, and erase the previous block's evidence ($R_i$ output direction in the residual stream) using an always-on neuron.
+- **Block $2k$** (an unprobed layer): compute the 3 $R_i = \text{ReLU}(P_i(x_1, v_1, v_2))$, and sum them together in the appropriate ratios to fresh direction in the residual stream.
+- **Block $2k+1$** (a probed layer): Compute and use $c = \text{affine}(x_1, v_1, v_2, R_1, \dots, R_3)$ using the input matrix/bias, and erase the previous block's evidence ($R_i$ output direction in the residual stream) using an always-on neuron.
