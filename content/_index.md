@@ -18,10 +18,13 @@ sections:
         shape: circle # Options: circle (default), square, rounded
   - block: collection
     content:
+      title: Projects
       filters:
         folders:
-          - blog
+          - projects
     design:
+      view: card
+      columns: 2
       spacing:
         padding: ['3rem', 0, '6rem', 0]
 ---
