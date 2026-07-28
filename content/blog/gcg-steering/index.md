@@ -1,7 +1,7 @@
 ---
 title: Activation Steering with Greedy Coordinate Gradients
 summary: Maximize transformer activations along a given probe direction using greedy coordinate gradients
-date: 2026-07-13
+date: 2026-07-28
 authors:
   - me
 tags:
