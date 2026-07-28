@@ -12,9 +12,13 @@ baseURL: 'https://example.com/' # Website URL
 ############################
 
 cascade:
-  # Blog post options
+  # Project post options
+  # Applies to leaf pages under /projects/** — i.e. a single-post project's
+  # own index.md, or nested post pages inside a multi-post project's branch
+  # bundle. Does NOT apply to a project's own _index.md (kind: section),
+  # which is a listing page and should keep the default list.html behavior.
   - target:
-      path: /blog/**
+      path: /projects/**
       kind: page
     pager: true
     editable: true
@@ -24,7 +28,7 @@ cascade:
     commentable: true
     show_related: true
     share: true
-    # Just use Breadcrumb for navigation on blog post pages?
+    # Just use Breadcrumb for navigation on project post pages?
     show_breadcrumb: false
     header:
       navbar:
