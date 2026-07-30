@@ -74,3 +74,6 @@ Also, there's a bit more work to improve reproducibility between the training an
     - Conversely, how high of a score can you get if you're only working with one prompt?
 - Steering Arena scores results by cosine similarity, rather than absolute magnitude along the probe direction. So, what is the adversarial prompt doing to the magnitude of the activations? Is it driving the overall magnitude down, so that the direction corresponding to the probe contributes relatively more?
 - The original GCG paper found that, surprisingly, their prompts transferred to other models that they didn't train against. Does that happen here too -- if you retrain the probe direction with a new model, and use the GCG-optimized prompt from the existing model, does the prompt still score highly on the probe?
+
+## Code
+[The code for this work is on GitHub](https://github.com/jesseli2002/steering-arena-optim).

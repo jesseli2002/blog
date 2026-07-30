@@ -14,4 +14,4 @@ Training against probes is considered a [forbidden technique](https://www.lesswr
 
 
 ## Posts
-- [Analytic nonlinear feature obfuscation with two MLP blocks](/blog/analytic/)
+- [Analytic nonlinear feature obfuscation with two MLP blocks]({{< ref "/blog/analytic" >}})
