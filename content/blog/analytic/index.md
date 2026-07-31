@@ -90,14 +90,14 @@ The interactive tool below lets you explore the space of $P_i = a_0 + a_1 x_1 + 
 
 
 <div style="border:1px solid rgba(128,128,128,0.4); border-radius:8px; padding:16px 20px; margin:12px 0;">
-  <div style="display:flex; flex-wrap:wrap; gap:28px; align-items:center; margin-bottom:10px;">
-    <label style="display:flex; align-items:center; gap:10px;">
+  <div style="display:flex; flex-wrap:wrap; gap:20px; align-items:center; margin-bottom:10px;">
+    <label style="display:flex; align-items:center; gap:8px;">
       <span>&theta; = <b id="pi-tool-theta-val" style="display:inline-block; min-width:4ch; text-align:right;">0&deg;</b></span>
-      <input id="pi-tool-theta" type="range" min="0" max="360" step="1" value="0" style="width:220px;">
+      <input id="pi-tool-theta" type="range" min="0" max="360" step="1" value="0" style="width:160px;">
     </label>
-    <label style="display:flex; align-items:center; gap:10px;">
+    <label style="display:flex; align-items:center; gap:8px;">
       <span>c = <b id="pi-tool-c-val">1.30</b></span>
-      <input id="pi-tool-c" type="range" min="1.0" max="2.0" step="0.01" value="1.30" style="width:220px;">
+      <input id="pi-tool-c" type="range" min="1.0" max="2.0" step="0.01" value="1.30" style="width:160px;">
     </label>
   </div>
   <div style="display:flex; flex-wrap:wrap; gap:18px; align-items:center; margin-bottom:10px;">
