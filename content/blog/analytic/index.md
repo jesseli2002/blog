@@ -49,6 +49,20 @@ Over the valid range of $1 \leq c \leq 2$, these four kink positions are *always
 
 As a bit of bookkeeping - we'll also erase $c$ from the residual stream here, using an always-on neuron (e.g. add $-\text{ReLU}(c + 100) - 100$ to the channel contianing $c$).
 
+### Hiding performance
+Here's what $v_1$ and $v_2$ look like as you sweep $x_1$, for different $c$. The Difference of Means and Logistic Regression decision boundaries are shown, showing poor performance.
+
+![](v_channels_2d.png)
+
+This results in the following histograms and ROCs:
+![](v_channels_hist.png)
+
+![](v_channels_roc.png)
+
+Overall, the encoding has made both difference-of-means and logistic regression probes much less useful for evaluating the value of $c$.
+
+Of course, a nonlinear probe would be able to detect $c$ -- in fact, that's basically what the decoding step is.
+
 ## Decoding
 
 If you already knew which of the 5 bands $x_1$ was in, reading $c$ back out
