@@ -1,0 +1,7 @@
+{{/* Inlines a raw HTML page resource by filename, e.g. {{< include_html "plot.html" >}}. */}}
+{{ $filename := .Get 0 }}
+{{ with $.Page.Resources.Get $filename }}
+  {{ .Content | safeHTML }}
+{{ else }}
+  {{ errorf "include_html: resource %q not found on page %s" $filename $.Page.File.Path }}
+{{ end }}
