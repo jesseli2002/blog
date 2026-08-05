@@ -58,7 +58,7 @@ Note: for training and theoretical simplicity, this work fixes the embedding and
   In contrast, since I use a toy model, it's easy to construct an environment where the model has to hide its activations to succeed.
 
 ## Posts
-I present my results in three parts:
+I present my results in parts:
 
 - [Part 1: Analytic nonlinear feature obfuscation with two MLP blocks]({{< ref "/blog/analytic" >}})
   - An analytic construction using a small number of neurons, that fully defeat Difference-of-Means probes (by having the mean activations be a constant in $c$) and effectively defeat logistic regression probes, as long as the probes are spaced at least every 2 MLP blocks apart.
@@ -66,5 +66,6 @@ I present my results in three parts:
   - The setup and results for a single training run, giving evidence that the trained model has successfully learned to reversibly obfuscate its activations from a linear probe at a single layer.
 - Part 3: Sweeping hyperparameters (WIP)
   - The results of sweeping some hyperparameters, to see how robust the model's training is to different conditions.
+- Part 4: Next steps (WIP)
 
 [^1]: Specifically, use $y = x - \text{ReLU}(x - c) + \text{ReLU}(-x - c)$

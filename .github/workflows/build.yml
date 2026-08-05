@@ -38,6 +38,8 @@ jobs:
       with:
         # Fetch history for Hugo's .GitInfo and .Lastmod
         fetch-depth: 0
+        # Pull actual LFS file content, not just pointer files
+        lfs: true
 
     - name: Setup Node.js
       uses: actions/setup-node@v6
