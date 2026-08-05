@@ -30,8 +30,8 @@ Here:
 - $x$ represent various other features that a model might want to represent, uncorrelated with $c$.
 - $y$ represents some sort of computation the model would like to make, dependent on $c$.
   - For example, based on how deceptive the model intends to be (represented at some earlier layer), the model might upweight misleading information at some later layer.
-  - Such an action will ultimately come down to various computational primitives, which $\text{sat}$ is hopefully representative of.
-
+  - Such an action will ultimately come down to various computational primitives.
+  - $\text{sat}$ is hopefully representative of such a primitive -- it can be considered a rough approximation to the more common sigmoid function. ($\text{sat}$ was primarily chosen for its theoretical properties, as discussed below.)
 
 ## Why this task, and why this model?
 - The toy architecture is at least vaguely similar to the transformer architecture.
