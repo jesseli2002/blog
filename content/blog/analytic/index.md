@@ -12,7 +12,7 @@ tags:
   - toy-model-of-feature-obfuscation
 ---
 
-*This work was done as part of my work for the [BlueDot Impact Technical AI Safety Project](https://bluedot.org/courses/technical-ai-safety-project), and is part 1 of a [series here]({{< ref "/projects/toy-model-of-activation-obfuscation">}}). *
+*This work was done as part of my work for the [BlueDot Impact Technical AI Safety Project](https://bluedot.org/courses/technical-ai-safety-project), and is part 1 of a [series here]({{< ref "/projects/toy-model-of-activation-obfuscation">}}).*
 
 Recall that we consider a residual stream MLP architecture, like the one shown below:
 ![](model_architecture.png)

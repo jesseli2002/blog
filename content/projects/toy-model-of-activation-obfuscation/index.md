@@ -1,7 +1,7 @@
 ---
 title: Toy Model of Activation Obfuscation
 summary: A concrete example of why the most forbidden technique is forbidden
-date: 2026-07-28
+date: 2026-08-04
 image:
   filename: model_architecture.png
   preview_only: true
