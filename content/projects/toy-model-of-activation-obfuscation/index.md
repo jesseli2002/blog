@@ -31,7 +31,7 @@ Here:
 - $y$ represents some sort of computation the model would like to make, dependent on $c$.
   - For example, based on how deceptive the model intends to be (represented at some earlier layer), the model might upweight misleading information at some later layer.
   - Such an action will ultimately come down to various computational primitives.
-  - $\text{sat}$ is hopefully representative of such a primitive -- it can be considered a rough approximation to the more common sigmoid function. ($\text{sat}$ was primarily chosen for its theoretical properties, as discussed below.)
+  - $\text{sat}$ is hopefully representative of such a primitive -- for example, it can be considered a rough approximation to the more common sigmoid function. (Note: $\text{sat}$ was primarily chosen for its theoretical properties, as discussed below, not because it's necessarily a natural computaitional primitive.)
 
 ## Why this task, and why this model?
 - The toy architecture is at least vaguely similar to the transformer architecture.
