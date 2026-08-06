@@ -57,7 +57,7 @@ Note: for training and theoretical simplicity, this work fixes the embedding and
   Plausibly, the task that their model learns can be accomplished with equally high scores without needing to be harmful.
   In contrast, since I use a toy model, it's easy to construct an environment where the model has to hide its activations to succeed.
 
-## Posts
+## Results
 I present my results in parts:
 
 - [Part 1: Analytic nonlinear feature obfuscation with two MLP blocks]({{< ref "/blog/analytic" >}})
@@ -66,6 +66,17 @@ I present my results in parts:
   - The setup and results for a single training run, giving evidence that the trained model has successfully learned to reversibly obfuscate its activations from a linear probe at a single layer.
 - Part 3: Sweeping hyperparameters (WIP)
   - The results of sweeping some hyperparameters, to see how robust the model's training is to different conditions.
-- Part 4: Next steps (WIP)
 
-[^1]: Specifically, use $y = x - \text{ReLU}(x - c) + \text{ReLU}(-x - c)$
+## Future work
+There's a lot of potential extensions to this work.
+- Most obviously -- can this behaviour be reproduced at LLM scale?
+- How hard is it for a model to hide from a nonlinear probe? Or from probes at multiple or all layers? Can we study how likely "obfuscation at layer N" is to generalize to obfuscation at other layers or more complex obfuscation?
+- Are there different obfuscation strategies that occur when attention is introduced?
+- The model was forced to obfuscate its activations by the experiment setup. What happens if we give it an "out" - i.e. it can solve the task in some harder way?
+  - This might better mirror how real-world environments are (ideally) set-up: ensuring that there is a genuine acceptable solution, rather than the reward-hacking solution being the only success path.
+
+
+
+## Footnotes
+
+[^1]: Specifically, $y = x - \text{ReLU}(x - c) + \text{ReLU}(-x - c)$

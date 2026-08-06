@@ -70,7 +70,7 @@ This is honestly less well grounded theoretically, and more a consequence of how
 ## Results
 
 ### The model successfully learned the task
-This is visualized by plotting $y(x)$ for various fixed $c$ (evaluated one feature at a time)
+This is visualized by plotting $y(x)$ for various fixed $c$ (evaluated one feature at a time):
 
 ![](result/sweep3_lam0.1_tr0_curves.png)
 
