@@ -10,25 +10,34 @@
 
 set -e
 
-SRC_DIR=~/ml/toy_probe_hiding/publish/sweep3_lam0.1_tr0/best
 DEST_DIR="$(dirname "$0")/result"
-PREFIX="sweep3_lam0.1_tr0_"
+trash "$DEST_DIR"
+mkdir -p "$DEST_DIR"
 
+SRC_DIR=~/ml/toy_probe_hiding/publish/sweep7_lam0.1_tr0/best
+PREFIX="sweep7_lam0.1_tr0_"
 FILES=(
   auroc_bar.png
   curves.png
   linear_y.png
   L2_pca.png
   L2_probe.png
-  L4_probe.png
+  L2_steer_dir_mag.png
   L4_steer_cmp.png
+  roc_noise_grid.png
 )
-
-rm -rf "$DEST_DIR"
-mkdir -p "$DEST_DIR"
-
 for f in "${FILES[@]}"; do
   cp "$SRC_DIR/$PREFIX$f" "$DEST_DIR/$PREFIX$f"
 done
 
-echo "Copied ${#FILES[@]} files to $DEST_DIR"
+
+SRC_DIR=~/ml/toy_probe_hiding/publish/sweep7_lam0_tr0/best
+PREFIX="sweep7_lam0_tr0_"
+FILES=(
+  L2_steer_dir_mag.png
+)
+for f in "${FILES[@]}"; do
+  cp "$SRC_DIR/$PREFIX$f" "$DEST_DIR/$PREFIX$f"
+done
+
+echo "Copied files to $DEST_DIR"
